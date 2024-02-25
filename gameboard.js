@@ -1,6 +1,6 @@
 class Gameboard {
     constructor(size){
-        this.size = size
+        this.size = 10
         this.grid = this.createGrid(size)
         this.missedAttacks = []
     }
@@ -35,6 +35,10 @@ class Gameboard {
             this.missedAttacks.push(coordinates)
 
         }
+    }
+
+    isCoordinateAttacked(coordinate){
+        return this.grid[coordinate].destroyed
     }
 
     allShipsSunk() {
