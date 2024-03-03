@@ -33,12 +33,18 @@ class Gameboard {
         else {
             this.grid[coordinates].destroyed = true
             this.missedAttacks.push(coordinates)
-
         }
     }
 
     isCoordinateAttacked(coordinate){
-        return this.grid[coordinate].destroyed
+         // Check if the coordinate exists in the grid
+    if (coordinate in this.grid) {
+        // If the coordinate exists, return its 'destroyed' property
+        return this.grid[coordinate].destroyed;
+    } else {
+        // If the coordinate doesn't exist, it hasn't been attacked
+        return false;
+    }
     }
 
     allShipsSunk() {
