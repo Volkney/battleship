@@ -1,6 +1,8 @@
 const Computer = require('./computer')
 const Gameboard = require('./gameboard')
 const Player = require('./player')
+
+const { spyOn } = require('@jest/globals')
 describe('Computer', () => {
     let gameboard;
 
@@ -32,28 +34,52 @@ describe('Computer', () => {
         });
     });
 
-    it('should attack opponent with a valid coordinate', () => {
-        const opponentGameboard = new Computer(gameboard); // Create a gameboard for the opponent
-        const computerGameboard = new Player(gameboard);
-        const computerPlayer = new Computer(computerGameboard);
-        const coordinate = computerPlayer.attackOpponent(opponentGameboard);
-        
-        // Verify that the coordinate is within the expected range
-        expect(coordinate).toMatch(/[A-J][1-9]|10/);
+
+    describe('Computer', () => {
+        it('should have a gameboard size of 10', () => {
+            // Create a Gameboard object with size 10
+            const gameboard = new Gameboard(10);
+    
+            // Create a Computer object with the Gameboard object
+            const computer = new Computer(gameboard);
+    
+            // Expect that the gameboard size is 10
+            expect(computer.gameboard.size).toBe(10);
+        });
     });
 
-    // it('should not attack the same coordinate twice', () => {
-    //     const opponentGameboard = new Gameboard(10); // Create a gameboard for the opponent
-    //     const computerPlayer = new Computer(gameboard);
-    //     const attackedCoordinates = new Set();
+    describe('Computer', () => {
+        it('should hit opponent\'s gameboard once', () => {
+            // Mock the receiveAttack method of the opponent's gameboard
+            const receiveAttackMock = jest.fn();
+            const opponentGameboard = {
+                receiveAttack: receiveAttackMock
+            };
+    
+            // Create a Gameboard object for the computer
+            const computerGameboard = new Gameboard(10);
+    
+            // Create a Computer object with the Gameboard object
+            const computer = new Computer(computerGameboard);
+    
+            // Call the attackOpponent method of the computer
+            computer.attackOpponent({gameboard: opponentGameboard });
+            // expect(opponentGameboard instanceof Gameboard).toBe(true)
+            // Verify that the receiveAttack method was called once
+            expect(receiveAttackMock).toHaveBeenCalledTimes(1);
+        });
+    });
 
-    //     // Attack opponent multiple times
-    //     for (let i = 0; i < 100; i++) {
-    //         const coordinate = computerPlayer.attackOpponent({ gameboard: opponentGameboard });
-    //         // Verify that the coordinate hasn't been attacked before
-    //         expect(attackedCoordinates.has(coordinate)).toBe(false);
-    //         // Add the coordinate to the set of attacked coordinates
-    //         attackedCoordinates.add(coordinate);
-    //     }
-    // });
+    describe('Player', () => {
+        it('should hit opponent gameboard once', () => {
+            const playerGameboard = new Gameboard(10);
+            const opponentGameboard = new Gameboard(10);
+
+            const receiveAttack = jest.spyOn(opponentGameboard, 'receiveAttack')
+            const player = new Player(playerGameboard);    
+            player.attackOpponent('A1', opponentGameboard);
+            expect(receiveAttack).toHaveBeenCalledWith('A1');            receiveAttack.mockClear()
+        });
+    });
+
 });

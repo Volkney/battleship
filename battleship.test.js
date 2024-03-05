@@ -110,4 +110,23 @@ describe('Gameboard', () => {
         // Check if all ships are sunk
         expect(gameboard.allShipsSunk()).toBe(true);
     });
+
+    describe('isCoordinateAttacked', () => {
+        it('should return true if the coordinate exists and is attacked', () => {
+            const gameboard = new Gameboard(10);
+            gameboard.grid['A1'] = { destroyed: true };
+            expect(gameboard.isCoordinateAttacked('A1')).toBe(true);
+        });
+    
+        it('should return false if the coordinate exists but is not attacked', () => {
+            const gameboard = new Gameboard(10);
+            gameboard.grid['A1'] = { destroyed: false };
+            expect(gameboard.isCoordinateAttacked('A1')).toBe(false);
+        });
+    
+        it('should return false if the coordinate does not exist', () => {
+            const gameboard = new Gameboard(10);
+            expect(gameboard.isCoordinateAttacked('A1')).toBe(false);
+        });
+    });
 })

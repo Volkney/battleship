@@ -38,7 +38,7 @@ class Gameboard {
 
     isCoordinateAttacked(coordinate){
          // Check if the coordinate exists in the grid
-    if (coordinate in this.grid) {
+    if (coordinate in this.grid && this.grid[coordinate]) {
         // If the coordinate exists, return its 'destroyed' property
         return this.grid[coordinate].destroyed;
     } else {

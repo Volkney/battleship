@@ -4,7 +4,7 @@ class Computer{
     }
 
     attackOpponent(opponent) {
-        const coordinate = this.generateRandomCoordinate(); // Corrected: call generateRandomCoordinate method
+        const coordinate = this.generateRandomCoordinate(); // call generateRandomCoordinate method
         if (!this.gameboard.isCoordinateAttacked(coordinate)) {
             opponent.gameboard.receiveAttack(coordinate);
         }

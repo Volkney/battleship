@@ -2,12 +2,19 @@ class Player{
     constructor(gameboard){
         gameboard = this.gameboard
     }
-    attackOpponent(coordinate){
-        if(this.gameboard.isCoordinateAttacked(coordinate)){
-            throw new Error('This coordinate is already attacked')
+    
+    attackOpponent(coordinate, opponentGameboard) {
+        if (!opponentGameboard) {
+            throw new Error('Gameboard is not set');
         }
-        this.gameboard.receiveAttacked(coordinate)
+
+        if (opponentGameboard.isCoordinateAttacked(coordinate)) {
+            throw new Error('This coordinate is already attacked');
+        }
+        
+        opponentGameboard.receiveAttack(coordinate);
     }
+
 
 }
 
